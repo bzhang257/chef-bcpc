@@ -1,0 +1,11 @@
+network:
+  version: 2
+  ethernets:
+    eth0:
+      dhcp4: true
+{% for i in range(1, num_racks + 1) %}
+    eth{{i}}:
+      addresses:
+        - 10.121.{{83+i}}.1/24
+{% endfor %}
+
