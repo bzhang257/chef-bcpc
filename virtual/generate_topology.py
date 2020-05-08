@@ -1,7 +1,14 @@
+# usage: modify total_racks and nodes_per_rack and run "python generate_topology.py" when you are in virtual dir
+# r1n0 is bootstrap node. node 1 of first 3 racks are configured as headnodes
+# this program generates 3 files
+# 1. virtual/topology/topology.yml  
+# 2. virtual/bird/network.conf
+# 3. virtual/netplan/network.yaml
+
 import jinja2
 
-total_racks = 7 # virtualbox limits number of NICs to 8 
-nodes_per_rack = 20
+total_racks = 2  # max is 7 due to virtualbox number of NIC limit
+nodes_per_rack = 14 # max is 14 due to service ip limit
 
 bgp_asn = "4200858801"
 
@@ -63,6 +70,7 @@ def generate_node(rack_number, node_number, group, bgp_asn):
     else:
         ret += " " * 8 + "- role[worknode]\n"
         ret += " " * 8 + "- role[storagenode]\n"
+        ret += " " * 6 + "zone: dev\n"
     return ret
 
 def generate_netplan(total_racks):
